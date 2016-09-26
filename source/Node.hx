@@ -16,4 +16,24 @@ class Node
 	this.parent = parent;
 	}
 
+	public function getState(): State
+	{
+	return this.state;
+	}	
+
+	public function getParent(): Node
+	{
+	return this.parent;
+	}	
+
+	public function setState(state: State): Void
+	{
+	this.state = state;
+	}	
+
+	public function setParent(parent: Parent): Void
+	{
+	this.parent = parent;
+	}	
+
 }
