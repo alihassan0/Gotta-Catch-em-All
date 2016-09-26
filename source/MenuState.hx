@@ -9,7 +9,7 @@ import flixel.math.FlxMath;
 
 class MenuState extends FlxState
 {
-	var maze:Array<Array<Int>>;
+	var maze:Maze;
 
 	override public function create():Void
 	{
