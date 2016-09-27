@@ -7,8 +7,9 @@ class GuiTile extends FlxSprite
 {
     public function new (x:Int, y:Int)
     {
-        super(x +1, y +1);
-        makeGraphic(Reg.tileSize -2, Reg.tileSize-2, 0xFFFF0000);
+        super(x, y);
+        loadGraphic("assets/images/sprites.png", true, 16, 16, true);
+        this.animation.frameIndex = 32;
         FlxG.state.add(this);
     }
 }

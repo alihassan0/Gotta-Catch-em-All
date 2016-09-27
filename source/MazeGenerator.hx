@@ -20,7 +20,8 @@ class MazeGenerator
         
 		mazeGrid[posX][posY] = 0; 
         
-		maze.moves.push(posY + posY * maze.widthInTiles);
+		maze.moves.push(posY + posX * maze.widthInTiles);
+		maze.isGenerating = true;
 
 		haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
 
@@ -70,6 +71,30 @@ class MazeGenerator
 					posY = back % maze.widthInTiles;
 			}
 			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
+		}
+		else
+		{
+			maze.isGenerating = false;
+			trace("I am done");
+			//TODO change random function
+			var randomBallCount:Int = 5 + Math.floor(Math.random()*5);
+			var availableTiles:Array<Int> = new Array<Int>();
+			
+			for (i in 0...maze.heightInTiles)
+				for (j in 0...maze.widthInTiles)
+					if(maze.mazeGrid[i][j] == 0){
+						availableTiles.push(i + j * maze.widthInTiles);
+					}
+			
+			for (i in 0...randomBallCount)
+			{
+				Random.shuffle(availableTiles);
+				maze.pokeballLocations.push(availableTiles.shift());
+			}
+			Random.shuffle(availableTiles);
+			maze.agentPos = availableTiles.shift();	
+			Random.shuffle(availableTiles);
+			maze.exitPos = availableTiles.shift();	
 		}
 	}
     public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>
