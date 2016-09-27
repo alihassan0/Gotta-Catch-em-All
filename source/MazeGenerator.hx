@@ -2,15 +2,14 @@ package;
 
 class MazeGenerator
 {
- 	public static function generateMaze(mazeWidth:Int, mazeHeight:Int, maze:Maze):Maze
+ 	public static function generateMaze(maze:Maze):Maze
 	{
 		var mazeGrid:Array<Array<Int>> = maze.mazeGrid;
-		var moves:Array<Int> = new Array<Int>();
 
-        for (i in 0...mazeHeight)
+        for (i in 0...maze.heightInTiles)
 		{
             mazeGrid[i] = new Array<Int>();
-			for (j in 0...mazeWidth)
+			for (j in 0...maze.widthInTiles)
 			{
 				mazeGrid[i][j] = 1;
 			}
@@ -21,73 +20,72 @@ class MazeGenerator
         
 		mazeGrid[posX][posY] = 0; 
         
-		moves.push(posY + posY * mazeWidth);
+		maze.moves.push(posY + posY * maze.widthInTiles);
 
-		haxe.Timer.delay(MazeGenerator.move.bind(moves, posX, posY, mazeWidth, mazeHeight, mazeGrid), Reg.delay); // 1s                              
+		haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
 
 		return maze;
 	}
 
-    public static function move(moves:Array<Int>, posX:Int, posY:Int, mazeWidth:Int, mazeHeight:Int, mazeGrid:Array<Array<Int>>):Void
+    public static function move(maze:Maze,  posX:Int , posY:Int):Void
 	{
-		if(moves.length != 0){       
+		if(maze.moves.length != 0){       
 			var possibleDirections = "";
 			
-			if(inBounds(posX+2, mazeHeight) && isOccupiedTile(posX + 2,posY, mazeGrid))
+			if(inBounds(posX+2, maze.heightInTiles) && isOccupiedTile(posX + 2,posY, maze.mazeGrid))
 					possibleDirections += "S";
-			if(inBounds(posX-2, mazeHeight) && isOccupiedTile(posX - 2,posY, mazeGrid))
+			if(inBounds(posX-2, maze.heightInTiles) && isOccupiedTile(posX - 2,posY, maze.mazeGrid))
 					possibleDirections += "N";
 
-			if(inBounds(posY-2, mazeWidth) && isOccupiedTile(posX,posY - 2, mazeGrid))
+			if(inBounds(posY-2, maze.widthInTiles) && isOccupiedTile(posX,posY - 2, maze.mazeGrid))
 					possibleDirections += "W";
-			if(inBounds(posY+2, mazeWidth) && isOccupiedTile(posX,posY + 2, mazeGrid))
+			if(inBounds(posY+2, maze.widthInTiles) && isOccupiedTile(posX,posY + 2, maze.mazeGrid))
 					possibleDirections += "E";
 			if(possibleDirections != ""){
 					var move:String = possibleDirections.charAt(Math.floor(Math.random()*possibleDirections.length));
 
 					switch (move){
 						case "N": 
-							mazeGrid[posX - 2][posY] = 0;
-							mazeGrid[posX - 1][posY] = 0;
+							maze.mazeGrid[posX - 2][posY] = 0;
+							maze.mazeGrid[posX - 1][posY] = 0;
 							posX -= 2;
 						case "S":
-							mazeGrid[posX + 2][posY] = 0;
-							mazeGrid[posX + 1][posY] = 0;
+							maze.mazeGrid[posX + 2][posY] = 0;
+							maze.mazeGrid[posX + 1][posY] = 0;
 							posX += 2;
 						case "W":
-							mazeGrid[posX][posY - 2] = 0;
-							mazeGrid[posX][posY - 1] = 0;
+							maze.mazeGrid[posX][posY - 2] = 0;
+							maze.mazeGrid[posX][posY - 1] = 0;
 							posY -= 2;
 						case "E":
-							mazeGrid[posX][posY + 2]=0;
-							mazeGrid[posX][posY + 1]=0;
+							maze.mazeGrid[posX][posY + 2]=0;
+							maze.mazeGrid[posX][posY + 1]=0;
 							posY += 2;
 					}
-					moves.push(posY + posX * mazeWidth);     
+					maze.moves.push(posY + posX * maze.widthInTiles);     
 			}
 			else{
-					var back = moves.pop();
-					posX = Math.floor(back / mazeWidth);
-					posY = back % mazeWidth;
+					var back = maze.moves.pop();
+					posX = Math.floor(back / maze.widthInTiles);
+					posY = back % maze.widthInTiles;
 			}
-			haxe.Timer.delay(MazeGenerator.move.bind(moves, posX, posY, mazeWidth, mazeHeight, mazeGrid), Reg.delay); // 1s                              
+			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
 		}
 	}
-    public static function createStartingMaze(mazeWidth:Int, mazeHeight:Int):Maze
+    public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>
 	{
 		var mazeGrid:Array<Array<Int>> = new Array<Array<Int>>();
 
-        for (i in 0...mazeHeight)
+        for (i in 0...maze.heightInTiles)
 		{
             mazeGrid[i] = new Array<Int>();
-			for (j in 0...mazeWidth)
+			for (j in 0...maze.widthInTiles)
 			{
 				mazeGrid[i][j] = 1;
 			}
 		}
 
-		var maze:Maze = new Maze(mazeGrid);
-		return maze;
+		return mazeGrid;
 	}
     public static function traceMaze(maze:Maze):Void
 	{
