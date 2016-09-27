@@ -7,8 +7,9 @@ class Maze
     public var endLocation:Point;
     public var pokemonLocations:Array<Point>;
 
-    public function new ()
+    public function new (mazeGrid:Array<Array<Int>>)
     {
+        this.mazeGrid = mazeGrid;
     }
 }
 
