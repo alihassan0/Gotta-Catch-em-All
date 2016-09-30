@@ -5,11 +5,12 @@ import util.*;
 
 class MazeSearcher
 {
+    private static var depth:Int = 50;
  	public static function search(maze:Maze, strategy:String, visualize:Bool):Bool
 	{
         //create Node double ended queue
         var queue:ArrayedDeque<Node> = new ArrayedDeque<Node>();
-        
+        trace( "initialState => ", maze.initialState );
         //push root Node with no parent
         queue.pushBack(makeNode(maze.initialState));
 
@@ -19,12 +20,13 @@ class MazeSearcher
                 return false;
             
             var node:Node = queue.popFront();
-            
+            depth --;//temp
+            if(depth< 0) return false;
             if(goalTest(maze, node.getState()))
                 return true;
             
             //TODO : Add queueing function here
-            var newStates = expand(node.getState(), maze.operators);
+            var newStates = expand(maze, node.getState(), maze.operators);
             for (i in 0...newStates.length)
             {
                 queue.pushBack(makeNode(newStates[i], node));
@@ -42,14 +44,20 @@ class MazeSearcher
     {
         return false;
     }
-    public static function expand (state:State, operators:Array<Operator>): Array<State>
+    public static function expand (maze:Maze, state:State, operators:Array<Operator>): Array<State>
     {
-        var states:Array<State> = new Array<State>();
+        
+        var validStates:Array<State> = new Array<State>();
         for (i in 0...operators.length)
         {
-            states.push(apply(state, operators[i]));
+            var state:State = apply(state, operators[i]); 
+            if(maze.isValidState(state))
+            {
+                trace(state," operator => ", operators[i]);
+                validStates.push(state);
+            }
         }
-        return states;
+        return validStates;
     }
     public static function apply (state:State, operator:Operator): State
     {

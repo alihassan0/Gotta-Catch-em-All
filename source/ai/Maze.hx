@@ -31,9 +31,18 @@ class Maze
         
         this.pokeballLocations = new Array<Int>();
 
-        this.initialState = new State({x:toPoint(agentPos).x, y:toPoint(agentPos).y}, Direction.South);
         this.operators = [Operator.MoveForward, Operator.RotateLeft, Operator.RotateRight];
         
+    }
+
+    public function setInitialState ()
+    {
+        this.initialState = new State({x:toPoint(agentPos).x, y:toPoint(agentPos).y}, Direction.South);
+        trace(this.initialState);
+    }
+    public function isValidState (state:State)
+    {
+        return mazeGrid[state.getPosition().x][state.getPosition().y] != 1;
     }
     public function toPoint (index:Int):Point
     {

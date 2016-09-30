@@ -45,4 +45,8 @@ class State
 	{
 		this.pokemon = pokemon;
 	}
+	public function toString() 
+	{
+        return "x ="+ position.x+ ", y ="+ position.y + ", direction ="+ direction ;
+    }	
 }

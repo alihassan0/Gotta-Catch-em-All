@@ -31,6 +31,6 @@ class Node
 	public function setParent(parent: Node): Void
 	{
 		this.parent = parent;
-	}	
+	}
 
 }

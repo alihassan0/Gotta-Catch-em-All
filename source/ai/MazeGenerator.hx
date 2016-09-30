@@ -80,6 +80,7 @@ class MazeGenerator
 		else
 		{
 			maze.isGenerating = false;
+
 			trace("I am done");
 			//TODO change random function
 			var randomBallCount:Int = 5 + Math.floor(Math.random()*5);
@@ -99,7 +100,11 @@ class MazeGenerator
 			Random.shuffle(availableTiles);
 			maze.agentPos = availableTiles.shift();	
 			Random.shuffle(availableTiles);
-			maze.exitPos = availableTiles.shift();	
+			maze.exitPos = availableTiles.shift();
+			maze.setInitialState ();
+			
+			
+			MazeSearcher.search(maze, "betengan",  false);	
 		}
 	}
     public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>

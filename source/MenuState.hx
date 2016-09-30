@@ -18,10 +18,9 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		maze = new Maze(29, 29);
+		maze = new Maze(9, 9);
 		guiMaze = new GuiMaze(maze);
 		MazeGenerator.generateMaze(maze);
-		MazeSearcher.search(maze, "betengan",  false);
 		
 		// MazeGenerator.traceMaze(maze);
 
