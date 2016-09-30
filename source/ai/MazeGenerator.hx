@@ -1,5 +1,7 @@
 package ai;
 
+import util.*;
+
 class MazeGenerator
 {
  	public static function generateMaze(maze:Maze):Maze
@@ -27,12 +29,6 @@ class MazeGenerator
 
 		return maze;
 	}
-
- 	public static function search(maze:Maze, strategy:String, visualize:Bool):Bool
-	{
-		return true;
-	}
-
     public static function move(maze:Maze,  posX:Int , posY:Int):Void
 	{
 		if(maze.moves.length != 0){       
@@ -90,7 +86,6 @@ class MazeGenerator
 				for (j in 0...maze.widthInTiles)
 					if(maze.mazeGrid[i][j] == 0){
 						availableTiles.push(i + j * maze.widthInTiles);
-						trace(i , j , i + j * maze.widthInTiles);
 					}
 			
 			for (i in 0...randomBallCount)
@@ -106,7 +101,10 @@ class MazeGenerator
 			maze.setInitialState ();
 			
 			
-			MazeSearcher.search(maze, "betengan",  false);	
+			MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
+			
+			MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
+
 		}
 	}
     public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>

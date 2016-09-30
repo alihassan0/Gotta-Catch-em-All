@@ -1,32 +1,30 @@
 package ai;
 
-import de.polygonal.ds.ArrayedDeque;
+import de.polygonal.ds.PriorityQueue;
 import util.*;
 
 class MazeSearcher
 {
-    private static var depth:Int = 5000 ;
- 	public static function search(maze:Maze, strategy:String, visualize:Bool):ArrayedDeque<Node>
+    private static var depth:Int = 0 ;
+ 	public static function search(maze:Maze, strategy:Strategy, visualize:Bool):PriorityQueue<Node>
 	{
         //create Node double ended queue
-        var queue:ArrayedDeque<Node> = new ArrayedDeque<Node>();
+        var queue:PriorityQueue<Node> = new PriorityQueue<Node>();
 
         trace( "initialState => ", maze.initialState );
         //push root Node with no parent
-        queue.pushBack(makeNode(maze.initialState));
+        queue.enqueue(makeNode(maze.initialState));
 
         while(true)
         {
             if(queue.isEmpty())
                 return null;
             
-            var node:Node = queue.popFront();
-            depth --;//temp
-            //if(depth< 0) return false;
-            trace(queue.size);
+            var node:Node = queue.dequeue();
+            depth ++;//temp
             if(maze.goalTest(node.getState()))
             {
-                trace("Goal Found after", depth, "trials" );
+                trace("Goal Found after ", depth, " trials" );
                 var path:Array<State> = new Array<State>();
                 while(node.getParent() != null)
                 {
@@ -46,14 +44,26 @@ class MazeSearcher
             var newStates = expand(maze, node, maze.operators);
             for (i in 0...newStates.length)
             {
-                queue.pushBack(makeNode(newStates[i], node));
+                var cost = node.getPathCost();
+                
+                switch (strategy)
+                {
+                    case Strategy.BreadthFirst:
+                        cost += 1; 
+                    case Strategy.DepthFirst:
+                        cost -= 1; 
+                    default :
+
+  
+                }
+                queue.enqueue(makeNode(newStates[i], node, cost));
             }
 
         }
 	}
-    public static function makeNode (state: State, ?parent:Node): Node
+    public static function makeNode (state: State, ?parent:Node, pathCost:Float = 0): Node
 	{
-        return new Node(state, parent);
+        return new Node(state, parent, pathCost);
 	}
     public static function expand (maze:Maze, node:Node, operators:Array<Operator>): Array<State>
     {
@@ -89,16 +99,16 @@ class MazeSearcher
                 switch(state.getDirection())// TODO validate  after deciding a refernce point
                 {
                     case Direction.North:
-                        newState.getPosition().y --;
+                        newState.getPosition().x --;
 
                     case Direction.East:
-                        newState.getPosition().x ++;
+                        newState.getPosition().y ++;
 
                     case Direction.South:
-                        newState.getPosition().y ++;
+                        newState.getPosition().x ++;
                     
                     case Direction.West:
-                        newState.getPosition().x --;
+                        newState.getPosition().y --;
 
                 }
 
