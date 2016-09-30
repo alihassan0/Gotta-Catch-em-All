@@ -13,13 +13,10 @@ class SearchAlgorithm
 
 	public function makeNode new(state: State): Void
 	{
-
+		
 	}
 
-	public function goalTest new(problem: Array<Array<Int>>, node: Node): Bool
-	{
-
-	}
+	
 
 }
 

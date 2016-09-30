@@ -1,4 +1,4 @@
-package;
+package ai;
 
 class MazeGenerator
 {
@@ -26,6 +26,11 @@ class MazeGenerator
 		haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
 
 		return maze;
+	}
+
+ 	public static function search(maze:Maze, strategy:String, visualize:Bool):Bool
+	{
+		return true;
 	}
 
     public static function move(maze:Maze,  posX:Int , posY:Int):Void

@@ -7,7 +7,8 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
-import gui.GuiMaze;
+import ai.*;
+import gui.*;
 
 class MenuState extends FlxState
 {

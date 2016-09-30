@@ -1,4 +1,6 @@
-package;
+package ai;
+
+import util.*;
 
 class Maze
 {
@@ -30,10 +32,4 @@ class Maze
     {
         return {x:Math.floor(index/widthInTiles),y: index%heightInTiles}
     }
-}
-
-typedef Point = 
-{
-    var x:Int;
-    var y:Int;
 }

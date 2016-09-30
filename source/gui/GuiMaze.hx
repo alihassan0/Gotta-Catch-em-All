@@ -2,6 +2,8 @@ package gui;
 
 import flixel.FlxSprite;
 
+import ai.Maze;
+
 class GuiMaze
 {
     private var tileGrid:Array<Array<GuiTile>>;

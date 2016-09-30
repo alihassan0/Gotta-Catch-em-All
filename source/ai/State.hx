@@ -1,10 +1,10 @@
-package;
+package ai;
 
 class State
 {
 	
-	xLocation: Int;
-	yLocation: Int;
+	position: Point;
+	direction: Direction;
 	pokemon: Bool;
 	
   	public function new() { }
