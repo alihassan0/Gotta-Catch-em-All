@@ -17,6 +17,9 @@ class Maze
 
     public var isGenerating:Bool;
 
+    //problem tuples
+    public var operators:Array<Operator>;
+    public var initialState:State;
 
     public function new (widthInTiles:Int, heightInTiles:Int)
     {
@@ -27,6 +30,10 @@ class Maze
         this.moves = new Array<Int>();
         
         this.pokeballLocations = new Array<Int>();
+
+        this.initialState = new State({x:toPoint(agentPos).x, y:toPoint(agentPos).y}, Direction.South);
+        this.operators = [Operator.MoveForward, Operator.RotateLeft, Operator.RotateRight];
+        
     }
     public function toPoint (index:Int):Point
     {

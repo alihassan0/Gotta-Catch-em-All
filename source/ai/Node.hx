@@ -1,14 +1,11 @@
 package ai;
 
-import State;
-
 class Node
 {
 
 	var state: State;
 	var parent: Node;
 
-	public function new() { }
 
 	public function new(state: State, parent: Node): Void 
 	{
@@ -31,7 +28,7 @@ class Node
 		this.state = state;
 	}	
 
-	public function setParent(parent: Parent): Void
+	public function setParent(parent: Node): Void
 	{
 		this.parent = parent;
 	}	

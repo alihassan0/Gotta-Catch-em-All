@@ -1,47 +1,48 @@
 package ai;
 
+import util.*;
+
 class State
 {
 	
-	position: Point;
-	direction: Direction;
-	pokemon: Bool;
+	private var position: Point;
+	private var direction: Direction;
+	private var pokemon: Bool;
 	
-  	public function new() { }
 
-	public function new(xLocation: Int, yLocation: Int): Void 
+	public function new(position: Point, direction: Direction): Void 
 	{
-	this.xLocation  = xLocation;
-	this.yLocation = yLocation;
+		this.position = position;
+		this.direction = direction;
 	}
 
-	public function getXLocation(): Int
+	public function setPosition(position:Point): Void
 	{
-	return this.xLocation;
+		this.position = position;
 	}
 
-	public function getYLocation(): Int
+	public function getPosition():Point
 	{
-	return this.yLocation;
+		return this.position;
 	}
 	
-	public function setXLocation(xLocation: Int): Void
+	public function setDirection(direction:Direction): Void
 	{
-	this.xLocation = xLocation;
+		this.direction = direction;
 	}
 
-	public function setYLocation(yLocation: Int): Void
+	public function getDirection():Direction
 	{
-	this.yLocation = yLocation;
+		return this.direction;
 	}
 
 	public function getPokemon(): Bool
 	{
-	return this.pokemon;
+		return this.pokemon;
 	}
 
 	public function setPokemon(pokemon: Bool): Void
 	{
-	this.pokemon = pokemon;
+		this.pokemon = pokemon;
 	}
 }

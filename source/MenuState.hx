@@ -21,6 +21,7 @@ class MenuState extends FlxState
 		maze = new Maze(29, 29);
 		guiMaze = new GuiMaze(maze);
 		MazeGenerator.generateMaze(maze);
+		MazeSearcher.search(maze, "betengan",  false);
 		
 		// MazeGenerator.traceMaze(maze);
 
