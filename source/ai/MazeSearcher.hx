@@ -5,7 +5,7 @@ import util.*;
 
 class MazeSearcher
 {
-    private static var depth:Int = 50;
+    private static var depth:Int = 5000 ;
  	public static function search(maze:Maze, strategy:String, visualize:Bool):Bool
 	{
         //create Node double ended queue
@@ -21,9 +21,13 @@ class MazeSearcher
             
             var node:Node = queue.popFront();
             depth --;//temp
-            if(depth< 0) return false;
-            if(goalTest(maze, node.getState()))
-                return true;
+            //if(depth< 0) return false;
+            trace(queue.size);
+            if(maze.goalTest(node.getState()))
+            {
+                trace("Goal Found", depth);
+                 return true;
+            }   
             
             //TODO : Add queueing function here
             var newStates = expand(maze, node.getState(), maze.operators);
@@ -40,10 +44,6 @@ class MazeSearcher
 	{
         return new Node(state, parent);
 	}
-    public static function goalTest (maze: Maze, state:State): Bool
-    {
-        return false;
-    }
     public static function expand (maze:Maze, state:State, operators:Array<Operator>): Array<State>
     {
         
@@ -53,7 +53,7 @@ class MazeSearcher
             var state:State = apply(state, operators[i]); 
             if(maze.isValidState(state))
             {
-                trace(state," operator => ", operators[i]);
+                //trace(state," operator => ", operators[i]);
                 validStates.push(state);
             }
         }

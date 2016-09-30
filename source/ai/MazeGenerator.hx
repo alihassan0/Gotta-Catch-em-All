@@ -90,6 +90,7 @@ class MazeGenerator
 				for (j in 0...maze.widthInTiles)
 					if(maze.mazeGrid[i][j] == 0){
 						availableTiles.push(i + j * maze.widthInTiles);
+						trace(i , j , i + j * maze.widthInTiles);
 					}
 			
 			for (i in 0...randomBallCount)
@@ -99,6 +100,7 @@ class MazeGenerator
 			}
 			Random.shuffle(availableTiles);
 			maze.agentPos = availableTiles.shift();	
+			trace(maze.agentPos);
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
 			maze.setInitialState ();

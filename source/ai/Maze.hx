@@ -46,6 +46,11 @@ class Maze
     }
     public function toPoint (index:Int):Point
     {
-        return {x:Math.floor(index/widthInTiles),y: index%heightInTiles}
+        return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
+    }
+    public function goalTest (state:State): Bool
+    {
+        var point = toPoint(exitPos);
+        return state.getPosition().x == point.x && state.getPosition().y == point.y ;
     }
 }
