@@ -49,4 +49,10 @@ class State
 	{
         return "x ="+ position.x+ ", y ="+ position.y + ", direction ="+ direction ;
     }	
+	public function equals(state:State) 
+	{
+        return state.getPosition().x == this.getPosition().x &&
+        		state.getPosition().y == this.getPosition().y &&
+        		state.getDirection() == this.getDirection();
+    }	
 }
