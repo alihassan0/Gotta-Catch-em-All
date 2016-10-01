@@ -5,7 +5,7 @@ import util.*;
 
 class MazeSearcher
 {
-    private static var depth:Int = 0 ;
+    private static var iterations:Int = 0 ;
  	public static function search(maze:Maze, strategy:Strategy, visualize:Bool):PriorityQueue<Node>
 	{
         //create Node double ended queue
@@ -21,31 +21,45 @@ class MazeSearcher
                 return null;
             
             var node:Node = queue.dequeue();
-            depth ++;//temp
+            iterations ++;//temp
             if(maze.goalTest(node.getState()))
             {
-                trace("Goal Found after ", depth, " trials" );
-                var path:Array<State> = new Array<State>();
+                trace("Goal Found after "+ iterations+ " iterations using the " + strategy + " Algorithm");
+                var path:Array<Operator> = new Array<Operator>();
                 while(node.getParent() != null)
                 {
-                    path.push(node.getState());
+                    path.push(node.getOperator());
                     node = node.getParent();
                 }
                 trace("Goal Found at depth :", path.length);
-                trace("-----------------------------------");
-                for (i in 0...path.length)
-                {
-                    trace(path[i]);
-                }
+                trace(path);
                  return null;
             }   
             
             //TODO : Add queueing function here
-            var newStates = expand(maze, node, maze.operators);
-            for (i in 0...newStates.length)
+            var newNodes = expand(maze, node, maze.operators, strategy);
+            for (i in 0...newNodes.length)
+            {
+                queue.enqueue(newNodes[i]);
+            }
+
+        }
+	}
+    public static function makeNode (state: State, ?parent:Node, ?pathCost:Float = 0, ?operator:Operator): Node
+	{
+        var depth = parent != null? parent.getDepth() +1 : 0;
+        return new Node(state, parent, pathCost, operator, depth);
+	}
+
+    public static function expand (maze:Maze, node:Node, operators:Array<Operator>, strategy:Strategy): Array<Node>
+    {
+        var validNodes:Array<Node> = new Array<Node>();
+        for (i in 0...operators.length)
+        {
+            var state:State = apply(node.getState(), operators[i]); 
+            if(maze.isValidState(state) && isNotLoop(node, state))
             {
                 var cost = node.getPathCost();
-                
                 switch (strategy)
                 {
                     case Strategy.BreadthFirst:
@@ -53,32 +67,13 @@ class MazeSearcher
                     case Strategy.DepthFirst:
                         cost -= 1; 
                     default :
-
-  
                 }
-                queue.enqueue(makeNode(newStates[i], node, cost));
-            }
-
-        }
-	}
-    public static function makeNode (state: State, ?parent:Node, pathCost:Float = 0): Node
-	{
-        return new Node(state, parent, pathCost);
-	}
-    public static function expand (maze:Maze, node:Node, operators:Array<Operator>): Array<State>
-    {
-        var validStates:Array<State> = new Array<State>();
-        for (i in 0...operators.length)
-        {
-            var state:State = apply(node.getState(), operators[i]); 
-            if(maze.isValidState(state) && isNotLoop(node, state))
-            {
-                //trace(state," operator => ", operators[i]);
-                validStates.push(state);
+                validNodes.push(makeNode(state, node, cost, operators[i]));
             }
         }
-        return validStates;
+        return validNodes;
     }
+
     public static function isNotLoop (node:Node, state:State): Bool
     {
         while(node.getParent() != null)
