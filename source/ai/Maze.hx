@@ -2,7 +2,7 @@ package ai;
 
 import util.*;
 
-class Maze
+class Maze extends  Problem
 {
     public var mazeGrid:Array<Array<Int>>;
     public var startLocation:Point;
@@ -17,12 +17,9 @@ class Maze
 
     public var isGenerating:Bool;
 
-    //problem tuples
-    public var operators:Array<Operator>;
-    public var initialState:State;
-
     public function new (widthInTiles:Int, heightInTiles:Int)
     {
+        super();
         this.widthInTiles = widthInTiles;
         this.heightInTiles = heightInTiles;
 
@@ -35,22 +32,22 @@ class Maze
         
     }
 
-    public function setInitialState ()
+    override public function setInitialState ()
     {
         this.initialState = new State({x:toPoint(agentPos).x, y:toPoint(agentPos).y}, Direction.South);
         trace(this.initialState);
     }
-    public function isValidState (state:State)
+    override public function isValidState (state:State) : Bool  
     {
         return mazeGrid[state.getPosition().x][state.getPosition().y] != 1;
+    }
+    override public function goalTest (state:State): Bool
+    {
+        var point = toPoint(exitPos);
+        return state.getPosition().x == point.x && state.getPosition().y == point.y ;
     }
     public function toPoint (index:Int):Point
     {
         return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
-    }
-    public function goalTest (state:State): Bool
-    {
-        var point = toPoint(exitPos);
-        return state.getPosition().x == point.x && state.getPosition().y == point.y ;
     }
 }
