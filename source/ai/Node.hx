@@ -1,12 +1,13 @@
 package ai;
 
 import util.*;
+import ai.base.*;
 
-class Node implements de.polygonal.ds.Prioritizable
+class Node<T:State> implements de.polygonal.ds.Prioritizable
 {
 	//Node 5 tuples
-	var state: State;
-	var parent: Node;
+	var state: T;
+	var parent: Node<T>;
 	var operator:Operator;
 	var pathCost:Float;
 	var depth:Int;
@@ -16,7 +17,7 @@ class Node implements de.polygonal.ds.Prioritizable
 	public var priority:Float;
 	public var position:Int;
 
-	public function new(state: State, parent: Node, pathCost:Float = 0 , ?operator:Operator, depth:Int = 1): Void 
+	public function new(state: T, parent: Node<T>, pathCost:Float = 0 , ?operator:Operator, depth:Int = 1): Void 
 	{
 		this.state  = state;
 		this.parent = parent;
@@ -27,12 +28,12 @@ class Node implements de.polygonal.ds.Prioritizable
 
 	}
 
-	public function getState(): State
+	public function getState(): T
 	{
 		return this.state;
 	}	
 
-	public function getParent(): Node
+	public function getParent(): Node<T>
 	{
 		return this.parent;
 	}	
@@ -50,12 +51,12 @@ class Node implements de.polygonal.ds.Prioritizable
 		return operator;
 	}	
 
-	public function setState(state: State): Void
+	public function setState(state: T): Void
 	{
 		this.state = state;
 	}	
 
-	public function setParent(parent: Node): Void
+	public function setParent(parent: Node<T>): Void
 	{
 		this.parent = parent;
 	}

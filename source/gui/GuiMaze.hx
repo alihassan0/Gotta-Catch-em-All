@@ -46,8 +46,8 @@ class GuiMaze
         }
         else
         {
-            for (i in 0...maze.pokeballLocations.length){
-                var pos = maze.toPoint(maze.pokeballLocations[i]);
+            for (i in 0...maze.pokemonsLocations.length){
+                var pos = maze.toPoint(maze.pokemonsLocations[i]);
                 tileGrid[pos.x][pos.y].animation.frameIndex = 63  ;
             }
             var pos = maze.toPoint(maze.exitPos);

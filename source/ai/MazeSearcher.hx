@@ -2,27 +2,30 @@ package ai;
 
 import de.polygonal.ds.PriorityQueue;
 import util.*;
+import ai.base.*;
 
 class MazeSearcher
 {
     private static var iterations:Int = 0 ;
- 	public static function search(maze:Maze, strategy:Strategy, visualize:Bool):PriorityQueue<Node>
+    
+    @:generic
+ 	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):PriorityQueue<Node<T>>
 	{
-        //create Node double ended queue
-        var queue:PriorityQueue<Node> = new PriorityQueue<Node>();
+        //create Priority queue with nodes of type state
+        var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>();
 
-        trace( "initialState => ", maze.initialState );
+        trace( "initialState => ", problem.initialState );
         //push root Node with no parent
-        queue.enqueue(makeNode(maze.initialState));
+        queue.enqueue(makeNode(problem.initialState));
 
         while(true)
         {
             if(queue.isEmpty())
                 return null;
             
-            var node:Node = queue.dequeue();
+            var node:Node<T> = queue.dequeue();
             iterations ++;//temp
-            if(maze.goalTest(node.getState()))
+            if(problem.goalTest(node.getState()))
             {
                 trace("Goal Found after "+ iterations+ " iterations using the " + strategy + " Algorithm");
                 var path:Array<Operator> = new Array<Operator>();
@@ -33,11 +36,11 @@ class MazeSearcher
                 }
                 trace("Goal Found at depth :", path.length);
                 trace(path);
-                 return null;
+                return null;
             }   
             
             //TODO : Add queueing function here
-            var newNodes = expand(maze, node, maze.operators, strategy);
+            var newNodes = expand(problem, node, problem.operators, strategy);
             for (i in 0...newNodes.length)
             {
                 queue.enqueue(newNodes[i]);
@@ -45,19 +48,22 @@ class MazeSearcher
 
         }
 	}
-    public static function makeNode (state: State, ?parent:Node, ?pathCost:Float = 0, ?operator:Operator): Node
+
+    @:generic
+    public static function makeNode <T:State>(state: T, ?parent:Node<T>, ?pathCost:Float = 0, ?operator:Operator): Node<T>
 	{
         var depth = parent != null? parent.getDepth() +1 : 0;
-        return new Node(state, parent, pathCost, operator, depth);
+        return new Node<T>(state, parent, pathCost, operator, depth);
 	}
 
-    public static function expand (maze:Maze, node:Node, operators:Array<Operator>, strategy:Strategy): Array<Node>
+    @:generic
+    public static function expand <T:State>(problem:Problem<T>, node:Node<T>, operators:Array<Operator>, strategy:Strategy): Array<Node<T>>
     {
-        var validNodes:Array<Node> = new Array<Node>();
+        var validNodes:Array<Node<T>> = new Array<Node<T>>();
         for (i in 0...operators.length)
         {
-            var state:State = apply(node.getState(), operators[i]); 
-            if(maze.isValidState(state) && isNotLoop(node, state))
+            var state:T = problem.apply(node.getState(), operators[i]); 
+            if(problem.isValidState(state) && isNotLoop(node, state))
             {
                 var cost = node.getPathCost();
                 switch (strategy)
@@ -74,7 +80,8 @@ class MazeSearcher
         return validNodes;
     }
 
-    public static function isNotLoop (node:Node, state:State): Bool
+    @:generic
+    public static function isNotLoop <T:State> (node:Node<T>, state:T): Bool
     {
         while(node.getParent() != null)
         {
@@ -84,34 +91,5 @@ class MazeSearcher
         }
         return true;
     }
-    public static function apply (state:State, operator:Operator): State
-    {
-        var newState:State = new State({x:state.getPosition().x, y:state.getPosition().y}, state.getDirection());
-        //TODO do map checks
-        switch(operator)
-        {
-            case Operator.MoveForward:
-                switch(state.getDirection())// TODO validate  after deciding a refernce point
-                {
-                    case Direction.North:
-                        newState.getPosition().x --;
-
-                    case Direction.East:
-                        newState.getPosition().y ++;
-
-                    case Direction.South:
-                        newState.getPosition().x ++;
-                    
-                    case Direction.West:
-                        newState.getPosition().y --;
-
-                }
-
-            case Operator.RotateLeft:
-                newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())-1+4)%4));
-            case Operator.RotateRight:
-                newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())+1+4)%4));
-        }
-        return newState;
-    }    
+        
 }

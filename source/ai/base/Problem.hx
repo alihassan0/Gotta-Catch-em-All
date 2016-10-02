@@ -1,12 +1,12 @@
-package ai;
+package ai.base;
 
 import util.*;
 
-class Problem
+class Problem <T:State>
 {
     //problem tuples
     public var operators:Array<Operator>;
-    public var initialState:State;
+    public var initialState:T;
 
     public function new ()
     {  
@@ -24,13 +24,18 @@ class Problem
 
     }
 
-    public function isValidState (state:State):Bool
+    public function isValidState (state:T):Bool
     {
         return true;
     }
 
-    public function goalTest (state:State): Bool
+    public function goalTest (state:T): Bool
     {
         return false;
+    }
+
+    public function apply (state:T, operator:Operator): T
+    {
+        return null;
     }
 }

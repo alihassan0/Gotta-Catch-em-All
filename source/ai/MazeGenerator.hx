@@ -91,13 +91,14 @@ class MazeGenerator
 			for (i in 0...randomBallCount)
 			{
 				Random.shuffle(availableTiles);
-				maze.pokeballLocations.push(availableTiles.shift());
+				maze.pokemonsLocations.push(availableTiles.shift());
 			}
 			Random.shuffle(availableTiles);
 			maze.agentPos = availableTiles.shift();	
 			trace(maze.agentPos);
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
+			maze.initialHatchingDistance = Random.int(10,50);
 			maze.setInitialState ();
 			
 			
