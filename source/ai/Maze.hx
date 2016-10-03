@@ -49,7 +49,11 @@ class Maze extends Problem<MazeState>
     override public function goalTest (state:MazeState): Bool
     {
         var point = toPoint(exitPos);
-        return state.getPosition().x == point.x && state.getPosition().y == point.y ;
+        if(state.getPosition().x == point.x && state.getPosition().y == point.y && state.getPokemonsLocations.length == 0 && state.getHatchingDistanceLeft() <= 0)
+        {
+           return true ;
+        }
+        return false ;
     }
     public function toPoint (index:Int):Point
     {
