@@ -91,5 +91,34 @@ class MazeSearcher
         }
         return true;
     }
+
+    public static function heuristicone (state:MazeState): Int
+    {
+        var x:Int = state.getPosition().x;
+        var y:Int = state.getPosition().y;
+        var pokemonsLocations:Array<Int> = state.getPokemonsLocations();
+        var pokemon:Point;
+        var index ;
+        var distance:Int = 0;
+
+        while(pokemonsLocations.length > 0){
+              index = pokemonsLocations.pop();
+              pokemon = toPoint(index);
+              distance = distance + abs(x - pokemon.x) + abs(y - pokemon.y);
+        }
+        return distance ;
+    }
+
+    /*public static function heuristictwo (state:MazeState): Int
+    {
+        var x:Int = state.getPosition().x;
+        var y:Int = state.getPosition().y;
+        var direction = state.getDirection();   
+    }*/
+
+    public function toPoint (index:Int):Point
+    {
+        return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
+    }
         
 }
