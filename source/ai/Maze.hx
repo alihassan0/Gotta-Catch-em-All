@@ -6,8 +6,6 @@ import ai.base.*;
 class Maze extends Problem<MazeState>
 {
     public var mazeGrid:Array<Array<Int>>;
-    public var startLocation:Point;
-    public var endLocation:Point;
     public var pokemonsLocations:Array<Int>;
     public var moves:Array<Int>;
     public var widthInTiles:Int;
@@ -27,10 +25,8 @@ class Maze extends Problem<MazeState>
 
         this.mazeGrid = MazeGenerator.createStartingMazeGrid(this);
         this.moves = new Array<Int>();
-
-
+        
         this.pokemonsLocations = new Array<Int>();
-
         this.operators = [Operator.MoveForward, Operator.RotateLeft, Operator.RotateRight];
         
     }
@@ -50,10 +46,6 @@ class Maze extends Problem<MazeState>
     {
         var point = toPoint(exitPos);
         return state.getPosition().x == point.x && state.getPosition().y == point.y ;
-    }
-    public function toPoint (index:Int):Point
-    {
-        return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
     }
     override public function apply (state:MazeState, operator:Operator): MazeState
     {
@@ -89,5 +81,14 @@ class Maze extends Problem<MazeState>
                 newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())+1+4)%4));
         }
         return newState;
+    }
+    public function reset ()
+    {
+        this.moves = new Array<Int>();
+        this.pokemonsLocations = new Array<Int>();
+    }
+    public function toPoint (index:Int):Point
+    {
+        return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
     }
 }

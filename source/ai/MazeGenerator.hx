@@ -4,7 +4,7 @@ import util.*;
 
 class MazeGenerator
 {
- 	public static function generateMaze(maze:Maze):Maze
+ 	public static function generateMaze(maze:Maze, ?onCompleted:Void->Void):Maze
 	{
 		var mazeGrid:Array<Array<Int>> = maze.mazeGrid;
 
@@ -25,11 +25,11 @@ class MazeGenerator
 		maze.moves.push(posY + posX * maze.widthInTiles);
 		maze.isGenerating = true;
 
-		haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
+		haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY, onCompleted), Reg.delay); // 1s                              
 
 		return maze;
 	}
-    public static function move(maze:Maze,  posX:Int , posY:Int):Void
+    public static function move(maze:Maze,  posX:Int , posY:Int, ?onCompleted:Void->Void):Void
 	{
 		if(maze.moves.length != 0){       
 			var possibleDirections = "";
@@ -71,13 +71,11 @@ class MazeGenerator
 					posX = Math.floor(back / maze.widthInTiles);
 					posY = back % maze.widthInTiles;
 			}
-			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY), Reg.delay); // 1s                              
+			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY, onCompleted), Reg.delay); // 1s                              
 		}
 		else
 		{
 			maze.isGenerating = false;
-
-			trace("I am done");
 			//TODO change random function
 			var randomBallCount:Int = 5 + Math.floor(Math.random()*5);
 			var availableTiles:Array<Int> = new Array<Int>();
@@ -95,17 +93,13 @@ class MazeGenerator
 			}
 			Random.shuffle(availableTiles);
 			maze.agentPos = availableTiles.shift();	
-			trace(maze.agentPos);
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
 			maze.initialHatchingDistance = Random.int(10,50);
 			maze.setInitialState ();
-			
-			
-			MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
-			
-			MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
 
+			if(onCompleted != null)
+				onCompleted();
 		}
 	}
     public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>
