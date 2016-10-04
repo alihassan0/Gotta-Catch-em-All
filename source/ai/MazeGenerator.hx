@@ -77,7 +77,7 @@ class MazeGenerator
 		{
 			maze.isGenerating = false;
 			//TODO change random function
-			var randomBallCount:Int = 5 + Math.floor(Math.random()*5);
+			var randomBallCount:Int = 2;//5 + Math.floor(Math.random()*5);
 			var availableTiles:Array<Int> = new Array<Int>();
 			
 			for (i in 0...maze.heightInTiles)
@@ -95,7 +95,7 @@ class MazeGenerator
 			maze.agentPos = availableTiles.shift();	
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
-			maze.initialHatchingDistance = Random.int(10,50);
+			maze.initialHatchingDistance = Random.int(4,50);
 			maze.setInitialState ();
 
 			if(onCompleted != null)

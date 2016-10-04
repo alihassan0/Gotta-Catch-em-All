@@ -45,7 +45,8 @@ class Maze extends Problem<MazeState>
     override public function goalTest (state:MazeState): Bool
     {
         var point = toPoint(exitPos);
-        if(state.getPosition().x == point.x && state.getPosition().y == point.y && state.getPokemonsLocations.length == 0 && state.getHatchingDistanceLeft() <= 0)
+        if(state.getPosition().x == point.x && state.getPosition().y == point.y 
+        && state.getPokemonsLocations().length == 0)
         {
            return true ;
         }
@@ -78,6 +79,9 @@ class Maze extends Problem<MazeState>
                         newState.getPosition().y --;
 
                 }
+                state.getPokemonsLocations().remove(toIndex(newState.getPosition().x,newState.getPosition().y));
+                newState.setPokemonsLocations(state.getPokemonsLocations());
+                newState.decrementHatchingDistanceLeft();
 
             case Operator.RotateLeft:
                 newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())-1+4)%4));
@@ -94,5 +98,9 @@ class Maze extends Problem<MazeState>
     public function toPoint (index:Int):Point
     {
         return {x: index%heightInTiles, y:Math.floor(index/widthInTiles)}
+    }
+    public function toIndex (x:Int, y:Int):Int
+    {
+        return y * widthInTiles + x;
     }
 }

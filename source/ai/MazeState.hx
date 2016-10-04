@@ -35,6 +35,11 @@ class MazeState extends State
 		return this.hatchingDistanceLeft;
 	}
 	
+	public function decrementHatchingDistanceLeft():Int
+	{
+		return this.hatchingDistanceLeft - 1;
+	}
+	
 	public function setDirection(direction:Direction): Void
 	{
 		this.direction = direction;
@@ -61,10 +66,10 @@ class MazeState extends State
 	override public function equals(state:State) 
 	{
 		var mazeState:MazeState = cast state;
-        return mazeState.getPosition().x == this.getPosition().x &&
-        		mazeState.getPosition().y == this.getPosition().y &&
-        		mazeState.getDirection() == this.getDirection() &&
-        		mazeState.getHatchingDistanceLeft() == this.getHatchingDistanceLeft() &&
-        		mazeState.getPokemonsLocations().toString() == this.getPokemonsLocations().toString();
+        return mazeState.getPosition().x == this.getPosition().x 
+				&&mazeState.getPosition().y == this.getPosition().y 
+				&&mazeState.getDirection() == this.getDirection() 
+				&&mazeState.getPokemonsLocations().toString() == this.getPokemonsLocations().toString();
+				//todo sorting before serializingn
     }	
 }
