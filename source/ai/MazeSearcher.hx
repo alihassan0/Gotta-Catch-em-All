@@ -76,7 +76,9 @@ class MazeSearcher
                     case Strategy.Gready(id):
                         cost = heur;
                     case AStar(id):
-                        cost += heur;     
+                        cost += heur;  
+		    case UniformCost:
+			cost += 1;
                     default :
                 }
                 validNodes.push(makeNode(state, node, cost, operators[i]));
