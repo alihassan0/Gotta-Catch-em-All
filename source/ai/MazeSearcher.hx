@@ -66,12 +66,17 @@ class MazeSearcher
             if(problem.isValidState(state) && isNotLoop(node, state))
             {
                 var cost = node.getPathCost();
+                var heur = node.getHeurestic();
                 switch (strategy)
                 {
                     case Strategy.BreadthFirst:
                         cost += 1; 
                     case Strategy.DepthFirst:
-                        cost -= 1; 
+                        cost -= 1;
+                    case Strategy.Gready(id):
+                        cost = heur;
+                    case AStar(id):
+                        cost += heur;     
                     default :
                 }
                 validNodes.push(makeNode(state, node, cost, operators[i]));

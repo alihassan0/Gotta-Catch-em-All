@@ -11,6 +11,7 @@ class Node<T:State> implements de.polygonal.ds.Prioritizable
 	var operator:Operator;
 	var pathCost:Float;
 	var depth:Int;
+	var heur:Int;
 
 
 	//interface properties 
@@ -59,6 +60,16 @@ class Node<T:State> implements de.polygonal.ds.Prioritizable
 	public function setParent(parent: Node<T>): Void
 	{
 		this.parent = parent;
+	}
+
+	public function getHeurestic(): Int
+	{
+	return this.heur;
+	}
+
+	public function setHeurestic(heur:Int): Void
+	{
+	this.heur = heur;
 	}
 
 }
