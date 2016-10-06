@@ -6,7 +6,6 @@ import ai.base.*;
 
 class MazeSearcher
 {
-    private static var iterations:Int = 0 ;
     
     @:generic
  	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):PriorityQueue<Node<T>>
@@ -14,7 +13,8 @@ class MazeSearcher
         //create Priority queue with nodes of type state
         var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>();
 
-        trace( "initialState => ", problem.initialState );
+        var nodesExplored:Int = 0;
+        //trace( "initialState => ", problem.initialState );
         //push root Node with no parent
         queue.enqueue(makeNode(problem.initialState));
 
@@ -24,11 +24,11 @@ class MazeSearcher
                 return null;
             
             var node:Node<T> = queue.dequeue();
-            iterations ++;//temp
+            nodesExplored ++;//temp
             if(problem.goalTest(node.getState()))
             {
-                trace("\n\n---------------------------------- [["+strategy+"]] -----------------------------------------");
-                trace("Goal Found after "+ iterations+ " iterations ");
+                trace("--------------------- [["+strategy+"]] --------------------");
+                trace("Goal Found after "+ nodesExplored+ " nodes Explored ");
                 var path:Array<Operator> = new Array<Operator>();
                 while(node.getParent() != null)
                 {
@@ -37,9 +37,9 @@ class MazeSearcher
                 }
                 trace("Goal Found at depth :", path.length);
                 path.reverse();
-                trace(path);
+                //trace(path);
+                trace("-----------------------------------------------------------\n");
                 return null;    
-                trace("---------------------------------------------------------------------------\n\n\n");
             }   
             
             //TODO : Add queueing function here

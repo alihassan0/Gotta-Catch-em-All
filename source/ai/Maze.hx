@@ -35,10 +35,30 @@ class Maze extends Problem<MazeState>
     private function addHeuristicFunctions ()
     {
         heuristicFunctions.push(naiveHeuristics);
+        heuristicFunctions.push(betterHeuristics);
     }
+
     private function naiveHeuristics(state:MazeState):Int
     {
         return 1;
+    }
+    //get nearest goal
+    private function betterHeuristics(state:MazeState):Int
+    {
+        var minDistance = 0;
+        //take direction into account
+        if(state.getPokemonsLocations().length > 0) //not all pokemons are acquired
+            minDistance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[0]));
+        else // if he acquired all pokemons .. return min distance to goal
+            return state.getDistanceFrom(toPoint(exitPos));
+
+        for (i in 1...state.getPokemonsLocations().length)
+        {
+            var distance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[0]));
+            if(distance < minDistance)
+                minDistance = distance;
+        }
+        return minDistance;
     }
 
     override public function setInitialState ()
@@ -64,17 +84,20 @@ class Maze extends Problem<MazeState>
     }
     override public function apply (state:MazeState, operator:Operator): MazeState
     {
-
+        //clone pokemonLocations array 
         var pokemonLocations:Array<Int> = [for (i in 0...state.getPokemonsLocations().length) state.getPokemonsLocations()[i]];    
      
+        //clone parent state into a new identical state 
         var newState:MazeState = new MazeState({x:state.getPosition().x, y:state.getPosition().y}, state.getDirection(), 
                                                 pokemonLocations, state.getHatchingDistanceLeft());
 
-        //TODO do map checks
+        //modify new state depending on operator
         switch(operator)
         {
             case Operator.MoveForward:
-                switch(state.getDirection())// TODO validate  after deciding a refernce point
+                
+                //update position 
+                switch(state.getDirection())
                 {
                     case Direction.North:
                         newState.getPosition().x --;
@@ -89,13 +112,17 @@ class Maze extends Problem<MazeState>
                         newState.getPosition().y --;
 
                 }
-                state.getPokemonsLocations().remove(toIndex(newState.getPosition().x,newState.getPosition().y));
-                newState.setPokemonsLocations(state.getPokemonsLocations());
+                //if the new state contains pokemon remove it from it's array; 
+                newState.getPokemonsLocations().remove(toIndex(newState.getPosition().x,newState.getPosition().y));
+
+                //decrement time to left to hatch the egg
                 newState.decrementHatchingDistanceLeft();
 
             case Operator.RotateLeft:
+                //change direction
                 newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())-1+4)%4));
             case Operator.RotateRight:
+                //change direction
                 newState.setDirection(Type.createEnumIndex(Direction, (Type.enumIndex(state.getDirection())+1+4)%4));
         }
         return newState;

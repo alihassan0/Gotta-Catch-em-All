@@ -71,13 +71,13 @@ class MazeGenerator
 					posX = Math.floor(back / maze.widthInTiles);
 					posY = back % maze.widthInTiles;
 			}
-			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY, onCompleted), Reg.delay); // 1s                              
+			haxe.Timer.delay(MazeGenerator.move.bind(maze, posX, posY, onCompleted), Reg.delay);                               
 		}
 		else
 		{
 			maze.isGenerating = false;
 			//TODO change random function
-			var randomBallCount:Int = 2;//5 + Math.floor(Math.random()*5);
+			var randomBallCount:Int = 3;//5 + Math.floor(Math.random()*5);
 			var availableTiles:Array<Int> = new Array<Int>();
 			
 			for (i in 0...maze.heightInTiles)
@@ -99,7 +99,8 @@ class MazeGenerator
 			maze.setInitialState ();
 
 			if(onCompleted != null)
-				onCompleted();
+				haxe.Timer.delay(onCompleted, 10); // apply timeout to allow for the maze to render 
+				
 		}
 	}
     public static function createStartingMazeGrid(maze:Maze):Array<Array<Int>>

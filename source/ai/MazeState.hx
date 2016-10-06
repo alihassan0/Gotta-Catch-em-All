@@ -20,6 +20,13 @@ class MazeState extends State
 		this.hatchingDistanceLeft = hatchingDistanceLeft;
 	}
 
+	public function getDistanceFrom(point:Point)
+	{
+		return Math.floor(Math.abs(point.x - position.x) + 
+							Math.abs(point.y - position.y));
+	}
+
+	//getters
 	public function setPosition(position:Point): Void
 	{
 		this.position = position;

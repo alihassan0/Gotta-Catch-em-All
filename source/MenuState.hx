@@ -23,7 +23,7 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		maze = new Maze(9, 9);
+		maze = new Maze(7, 7);
 		guiMaze = new GuiMaze(maze);
 		MazeGenerator.generateMaze(maze, beginSearching);
 		
@@ -37,13 +37,18 @@ class MenuState extends FlxState
 		guiMaze.updateProblemStats();
 		MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
 
-		// MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
+		//too time consuming
+		//MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
 
-		MazeSearcher.search(maze, Strategy.UniformCost ,  false);
+		//redundent
+		//MazeSearcher.search(maze, Strategy.UniformCost ,  false);
 		
-		MazeSearcher.search(maze, Strategy.Gready(1) ,  false);
 		
-		MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
+		MazeSearcher.search(maze, Strategy.Gready(2) ,  false);
+		
+		//MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
+
+		MazeSearcher.search(maze, Strategy.AStar(2) ,  false);
 	}
 	
 	function generateNewMaze()//generate new Maze 
