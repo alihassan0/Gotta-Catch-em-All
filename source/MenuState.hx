@@ -37,7 +37,13 @@ class MenuState extends FlxState
 		guiMaze.updateProblemStats();
 		MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
 
-		MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
+		// MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
+
+		MazeSearcher.search(maze, Strategy.UniformCost ,  false);
+		
+		MazeSearcher.search(maze, Strategy.Gready(1) ,  false);
+		
+		MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
 	}
 	
 	function generateNewMaze()//generate new Maze 
@@ -45,7 +51,7 @@ class MenuState extends FlxState
 		if(!maze.isGenerating)
 		{
 			maze.reset();
-			MazeGenerator.generateMaze(maze);
+			MazeGenerator.generateMaze(maze, beginSearching);
 		}
 	}
 	

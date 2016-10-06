@@ -27,7 +27,8 @@ class MazeSearcher
             iterations ++;//temp
             if(problem.goalTest(node.getState()))
             {
-                trace("Goal Found after "+ iterations+ " iterations using the " + strategy + " Algorithm");
+                trace("\n\n---------------------------------- [["+strategy+"]] -----------------------------------------");
+                trace("Goal Found after "+ iterations+ " iterations ");
                 var path:Array<Operator> = new Array<Operator>();
                 while(node.getParent() != null)
                 {
@@ -35,8 +36,10 @@ class MazeSearcher
                     node = node.getParent();
                 }
                 trace("Goal Found at depth :", path.length);
+                path.reverse();
                 trace(path);
-                return null;
+                return null;    
+                trace("---------------------------------------------------------------------------\n\n\n");
             }   
             
             //TODO : Add queueing function here
@@ -66,7 +69,8 @@ class MazeSearcher
             if(problem.isValidState(state) && isNotLoop(node, state))
             {
                 var cost = node.getPathCost();
-                var heuristics  = node.getHeuristic();
+                var heuristics = 0;
+                
                 switch (strategy)
                 {
                     case Strategy.BreadthFirst:
@@ -74,11 +78,13 @@ class MazeSearcher
                     case Strategy.DepthFirst:
                         cost -= 1;
                     case Strategy.Gready(id):
+                        heuristics  = problem.getHeuristic(state,id);
                         cost = heuristics ;
                     case AStar(id):
+                        heuristics  = problem.getHeuristic(state,id);
                         cost += heuristics ;  
-		    case UniformCost:
-			cost += 1;
+                    case UniformCost:
+                        cost += 1;
                     default :
                 }
                 validNodes.push(makeNode(state, node, cost, operators[i]));

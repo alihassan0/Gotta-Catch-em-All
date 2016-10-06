@@ -28,7 +28,17 @@ class Maze extends Problem<MazeState>
         
         this.pokemonsLocations = new Array<Int>();
         this.operators = [Operator.MoveForward, Operator.RotateLeft, Operator.RotateRight];
+        addHeuristicFunctions();
         
+    }
+
+    private function addHeuristicFunctions ()
+    {
+        heuristicFunctions.push(naiveHeuristics);
+    }
+    private function naiveHeuristics(state:MazeState):Int
+    {
+        return 1;
     }
 
     override public function setInitialState ()
