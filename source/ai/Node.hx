@@ -11,7 +11,7 @@ class Node<T:State> implements de.polygonal.ds.Prioritizable
 	var operator:Operator;
 	var pathCost:Float;
 	var depth:Int;
-	var heuristics :Int;
+	var heuristic :Int;
 
 
 	//interface properties 
@@ -64,12 +64,12 @@ class Node<T:State> implements de.polygonal.ds.Prioritizable
 
 	public function getHeuristic(): Int
 	{
-	return this.heur;
+		return this.heuristic;
 	}
 
-	public function setHeuristic(heur:Int): Void
+	public function setHeuristic(heuristic:Int): Void
 	{
-	this.heuristics  = heuristics ;
+		this.heuristic  = heuristic ;
 	}
 
 }

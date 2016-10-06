@@ -66,7 +66,7 @@ class MazeSearcher
             if(problem.isValidState(state) && isNotLoop(node, state))
             {
                 var cost = node.getPathCost();
-                var heuristics  = node.getHeurestic();
+                var heuristics  = node.getHeuristic();
                 switch (strategy)
                 {
                     case Strategy.BreadthFirst:
