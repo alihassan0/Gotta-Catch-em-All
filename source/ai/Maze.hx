@@ -34,17 +34,59 @@ class Maze extends Problem<MazeState>
 
     private function addHeuristicFunctions ()
     {
-        heuristicFunctions.push(naiveHeuristics);
-        heuristicFunctions.push(betterHeuristics);
-        heuristicFunctions.push(theBestHeuristics);
+        heuristicFunctions.push(manhatenHeuristics);
+        heuristicFunctions.push(clusteringHeuristics);
+        heuristicFunctions.push(extendedManhatenHeuristics);
     }
 
-    private function naiveHeuristics(state:MazeState):Int
-    {
-        return 1;
-    }
+    
     //get nearest goal
-    private function betterHeuristics(state:MazeState):Int
+    private function extendedManhatenHeuristics(state:MazeState):Int
+    {
+        var sumheuristics = 0;
+
+        //suggestion : take direction into account
+        if(state.getPokemonsLocations().length > 0) //not all pokemons are acquired
+            minDistance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[0]));
+        else // if he acquired all pokemons .. return min distance to goal
+            return state.getDistanceFrom(toPoint(exitPos));
+
+        for (i in 1...state.getPokemonsLocations().length)
+        {
+            var distance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[i]));
+            if(distance < minDistance)
+                minDistance = distance;
+        }
+        return minDistance;
+    }    
+
+    private function indexOfClosestPokemon(pokemonsLocations: Array<Int>, index:Int): Int
+    {
+        
+        if (pokemonsLocations.length == 0) {
+            return -1;
+        }
+
+        var min = pokemonsLocations[0];
+        var minIndex = 0;
+
+        for (i in 0...pokemonsLocations.length)
+        {
+
+            // we are storing distances instead of pokemons indecies in the same array to save memory 
+            var distance = getDistanceFrom(toPoint(pokemonsLocations[i]),toPoint(index));
+            if (pokemonsLocations[i] < min) {
+                minIndex = i;
+                min = pokemonsLocations[i];
+            }
+
+        }
+
+        return minIndex;
+    }
+
+    //get nearest goal
+    private function manhatenHeuristics(state:MazeState):Int
     {
         var minDistance = 0;
         //suggestion : take direction into account
@@ -61,7 +103,7 @@ class Maze extends Problem<MazeState>
         }
         return minDistance;
     }
-    private function theBestHeuristics(state:MazeState):Int
+    private function clusteringHeuristics(state:MazeState):Int
     {
         //take direction into account
         if(state.getPokemonsLocations().length < 1) //not all pokemons are acquired
