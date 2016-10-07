@@ -35,6 +35,7 @@ class MenuState extends FlxState
 	function beginSearching()
 	{
 		guiMaze.updateProblemStats();
+		trace("#############################################");
 		MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
 
 		//too time consuming
@@ -45,10 +46,14 @@ class MenuState extends FlxState
 		
 		
 		 MazeSearcher.search(maze, Strategy.Gready(2) ,  false);
+		 
+		 MazeSearcher.search(maze, Strategy.Gready(3) ,  false);
 		
 		//MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
 
 		 MazeSearcher.search(maze, Strategy.AStar(2) ,  false);
+
+		 MazeSearcher.search(maze, Strategy.AStar(3) ,  false);
 	}
 	
 	function generateNewMaze()//generate new Maze 

@@ -37,7 +37,7 @@ class MazeSearcher
                 }
                 trace("Goal Found at depth :", path.length);
                 path.reverse();
-                trace(path);
+                //trace(path);
                 trace("-----------------------------------------------------------\n");
                 return null;    
             }   

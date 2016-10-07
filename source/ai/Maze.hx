@@ -36,6 +36,7 @@ class Maze extends Problem<MazeState>
     {
         heuristicFunctions.push(naiveHeuristics);
         heuristicFunctions.push(betterHeuristics);
+        heuristicFunctions.push(theBestHeuristics);
     }
 
     private function naiveHeuristics(state:MazeState):Int
@@ -46,7 +47,7 @@ class Maze extends Problem<MazeState>
     private function betterHeuristics(state:MazeState):Int
     {
         var minDistance = 0;
-        //take direction into account
+        //suggestion : take direction into account
         if(state.getPokemonsLocations().length > 0) //not all pokemons are acquired
             minDistance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[0]));
         else // if he acquired all pokemons .. return min distance to goal
@@ -54,12 +55,57 @@ class Maze extends Problem<MazeState>
 
         for (i in 1...state.getPokemonsLocations().length)
         {
-            var distance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[0]));
+            var distance = state.getDistanceFrom(toPoint(state.getPokemonsLocations()[i]));
             if(distance < minDistance)
                 minDistance = distance;
         }
         return minDistance;
     }
+    private function theBestHeuristics(state:MazeState):Int
+    {
+        //take direction into account
+        if(state.getPokemonsLocations().length < 1) //not all pokemons are acquired
+            return state.getDistanceFrom(toPoint(exitPos));
+
+        var distancesArray = [for (i in 0...state.getPokemonsLocations().length) 0];
+        
+        for (i in 0...state.getPokemonsLocations().length)
+        {
+            for (j in 0...state.getPokemonsLocations().length)
+            {
+                if(i != j)
+                {
+                    distancesArray[i] += getDistanceFrom(toPoint(state.getPokemonsLocations()[i])
+                                                        ,toPoint(state.getPokemonsLocations()[j]));
+                }
+            }
+        }
+        return state.getDistanceFrom(toPoint(state.getPokemonsLocations()[indexOfMin(distancesArray)]));
+        
+    }
+    
+    function indexOfMin(array:Array<Int>) {
+        if (array.length == 0) {
+            return -1;
+        }
+
+        var min = array[0];
+        var minIndex = 0;
+
+        for (i in 0...array.length) {
+            if (array[i] < min) {
+                minIndex = i;
+                min = array[i];
+            }
+        }
+        return minIndex;
+    }
+
+    public function getDistanceFrom(point1:Point, point2:Point)
+	{
+		return Math.floor(Math.abs(point1.x - point2.x) + 
+							Math.abs(point1.y - point2.y));
+	}
 
     override public function setInitialState ()
     {

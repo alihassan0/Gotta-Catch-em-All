@@ -95,7 +95,7 @@ class MazeGenerator
 			maze.agentPos = availableTiles.shift();	
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
-			maze.initialHatchingDistance = Random.int(4,50);
+			maze.initialHatchingDistance = Random.int(4,20);
 			maze.setInitialState ();
 
 			if(onCompleted != null)
