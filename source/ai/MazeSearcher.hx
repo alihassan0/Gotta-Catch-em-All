@@ -80,10 +80,10 @@ class MazeSearcher
                     case Strategy.Gready(id):
                         heuristics  = problem.getHeuristic(state,id);
                         cost = heuristics ;
-                    case AStar(id):
+                    case Strategy.AStar(id):
                         heuristics  = problem.getHeuristic(state,id);
                         cost += heuristics ;  
-                    case UniformCost:
+                    case Strategy.UniformCost:
                         cost += 1;
                     default :
                 }

@@ -43,23 +43,23 @@ class Maze extends Problem<MazeState>
     //get nearest goal
     private function extendedManhatenHeuristics(state:MazeState):Int
     {
-        
+
         var sumheuristics = 0;
 
          //clone pokemonLocations array 
         var pokemonLocations:Array<Int> = [for (i in 0...state.getPokemonsLocations().length) state.getPokemonsLocations()[i]];    
-        var lastNode = toIndex(state.getPosition()); 
+        var lastNode = state.getPosition(); 
 
-        while(!pokemonLocations.Empty())
+        while(!(pokemonLocations.length<1))
         {
             var minIndex = indexOfClosestPokemon(pokemonsLocations, lastNode);
-            sumheuristics += getDistanceFrom(toPoint(lastNode),minIndex);
+            sumheuristics += getDistanceFrom(lastNode,toPoint(minIndex));
             pokemonLocations.splice(minIndex,1);
         }
         return sumheuristics;
     }    
 
-    private function indexOfClosestPokemon(pokemonsLocations: Array<Int>, index:Int): Int
+    private function indexOfClosestPokemon(pokemonsLocations: Array<Int>, referencePoint:Point): Int
     {
         
         if (pokemonsLocations.length == 0) {
@@ -73,7 +73,7 @@ class Maze extends Problem<MazeState>
         {
 
             // we are storing distances instead of pokemons indecies in the same array to save memory 
-            var distance = getDistanceFrom(toPoint(pokemonsLocations[i]),toPoint(index));
+            var distance = getDistanceFrom(toPoint(pokemonsLocations[i]),referencePoint);
             if (pokemonsLocations[i] < min) {
                 minIndex = i;
                 min = pokemonsLocations[i];

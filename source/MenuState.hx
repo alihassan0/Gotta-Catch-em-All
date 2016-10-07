@@ -45,11 +45,13 @@ class MenuState extends FlxState
 		//MazeSearcher.search(maze, Strategy.UniformCost ,  false);
 		
 		
+		 MazeSearcher.search(maze, Strategy.Gready(1) ,  false);
+		 
 		 MazeSearcher.search(maze, Strategy.Gready(2) ,  false);
 		 
 		 MazeSearcher.search(maze, Strategy.Gready(3) ,  false);
 		
-		//MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
+		 MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
 
 		 MazeSearcher.search(maze, Strategy.AStar(2) ,  false);
 
