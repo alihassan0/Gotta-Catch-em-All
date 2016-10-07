@@ -11,7 +11,7 @@ class MazeSearcher
  	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):PriorityQueue<Node<T>>
 	{
         //create Priority queue with nodes of type state
-        var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>();
+        var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>(null, true);
 
         var nodesExplored:Int = 0;
         //trace( "initialState => ", problem.initialState );
@@ -37,7 +37,7 @@ class MazeSearcher
                 }
                 trace("Goal Found at depth :", path.length);
                 path.reverse();
-                //trace(path);
+                trace(path);
                 trace("-----------------------------------------------------------\n");
                 return null;    
             }   
