@@ -8,7 +8,7 @@ class MazeSearcher
 {
     
     @:generic
- 	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):PriorityQueue<Node<T>>
+ 	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):Array<Operator>
 	{
         //create Priority queue with nodes of type state
         var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>(null, true);
@@ -38,8 +38,9 @@ class MazeSearcher
                 trace("Goal Found at depth :", path.length);
                 path.reverse();
                 //trace(path);
+
                 trace("-----------------------------------------------------------\n");
-                return null;    
+                return path;    
             }   
             
             //TODO : Add queueing function here

@@ -4,11 +4,14 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import ai.Maze;
+import util.*;  
 
 class GuiMaze
 {
     private var tileGrid:Array<Array<GuiTile>>;
     private var maze:Maze;
+
+    public var guiAgent:GuiAgent;
 
     private var mazeStats:FlxText;
     
@@ -23,12 +26,14 @@ class GuiMaze
             tileGrid[i] = new Array<GuiTile>();
 			for (j in 0...maze.widthInTiles)
 			{
-				tileGrid[i].push(new GuiTile(0 + Reg.tileSize* j, 30 + Reg.tileSize* i));
+				tileGrid[i].push(new GuiTile(Reg.mapOffset.x + Reg.tileSize* j, Reg.mapOffset.y + Reg.tileSize* i));
 			}
 		}
 
         mazeStats = new FlxText(FlxG.width - 200, 0, 200, "stats", 16);
         FlxG.state.add(mazeStats);
+
+        guiAgent = new GuiAgent(0,0, this);
     }
     
     public function updateProblemStats():Void
@@ -44,6 +49,17 @@ class GuiMaze
         
         mazeStats.text += "pokemons => "+ maze.pokemonsLocations.length +"\n";
         mazeStats.text += "hatch dst => "+ maze.initialHatchingDistance +"\n";
+
+        for (i in 0...maze.pokemonsLocations.length){
+            var pos = maze.toPoint(maze.pokemonsLocations[i]);
+            tileGrid[pos.x][pos.y].animation.frameIndex = 63 ;
+        }
+
+        var pos = maze.toPoint(maze.exitPos);
+        tileGrid[pos.x][pos.y].animation.frameIndex = 57;
+        pos = maze.toPoint(maze.agentPos);
+        guiAgent.moveTo(pos.x, pos.y);
+        guiAgent.setDirection(maze.agentDirection);
     }
 
     public function update()
@@ -62,21 +78,21 @@ class GuiMaze
 
                 }
             }
-            if(maze.moves.length != 0){//show digger
-                var lastMove:Int = maze.moves[maze.moves.length -1];
-                tileGrid[Math.floor(lastMove/maze.widthInTiles)][lastMove%maze.heightInTiles].animation.frameIndex = 0  ;
+            
+            if(maze.moves.length > 0){//show digger
+                var lastMove:Point = maze.toPoint(maze.moves[maze.moves.length -1]);
+                guiAgent.moveTo(lastMove.y, lastMove.x);
             }
-        }
-        else
-        {
-            for (i in 0...maze.pokemonsLocations.length){
-                var pos = maze.toPoint(maze.pokemonsLocations[i]);
-                tileGrid[pos.x][pos.y].animation.frameIndex = 63  ;
-            }
-            var pos = maze.toPoint(maze.exitPos);
-            tileGrid[pos.x][pos.y].animation.frameIndex = 57;
-            pos = maze.toPoint(maze.agentPos);
-            tileGrid[pos.x][pos.y].animation.frameIndex = 1;
         }
     }
+    public function collectPokemon(x:Int, y:Int)
+    {
+        var index = maze.pokemonsLocations.indexOf(maze.toIndex(x,y));
+        if(index != -1)
+        {
+            var pos = maze.toPoint(maze.pokemonsLocations[index]);
+            tileGrid[pos.x][pos.y].animation.frameIndex = 52 ;
+        }
+    }
+    
 }

@@ -15,7 +15,6 @@ class MenuState extends FlxState
 {
 	var maze:Maze;
 	var guiMaze:GuiMaze;
-	
 
 	//gui
 	var randomizeBtn:FlxButton;
@@ -36,26 +35,31 @@ class MenuState extends FlxState
 	{
 		guiMaze.updateProblemStats();
 		trace("#############################################");
-		MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
 
-		//too time consuming
-		MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
 
-		//redundent
-		//MazeSearcher.search(maze, Strategy.UniformCost ,  false);
+		var path:Array<Operator> = MazeSearcher.search(maze, Strategy.BreadthFirst ,  false);
+
+		guiMaze.guiAgent.followPath(path);
+
+
+		// //too time consuming
+		// MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
+
+		// //redundent
+		// //MazeSearcher.search(maze, Strategy.UniformCost ,  false);
 		
 		
-		 MazeSearcher.search(maze, Strategy.Gready(1) ,  false);
+		//  MazeSearcher.search(maze, Strategy.Gready(1) ,  false);
 		 
-		 MazeSearcher.search(maze, Strategy.Gready(2) ,  false);
+		//  MazeSearcher.search(maze, Strategy.Gready(2) ,  false);
 		 
-		 MazeSearcher.search(maze, Strategy.Gready(3) ,  false);
+		// //  MazeSearcher.search(maze, Strategy.Gready(3) ,  false);
 		
-		 MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
+		//  MazeSearcher.search(maze, Strategy.AStar(1) ,  false);
 
-		 MazeSearcher.search(maze, Strategy.AStar(2) ,  false);
+		//  MazeSearcher.search(maze, Strategy.AStar(2) ,  false);
 
-		 MazeSearcher.search(maze, Strategy.AStar(3) ,  false);
+		//  MazeSearcher.search(maze, Strategy.AStar(3) ,  false);
 	}
 	
 	function generateNewMaze()//generate new Maze 

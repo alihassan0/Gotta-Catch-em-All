@@ -2,11 +2,16 @@ package;
 
 import flixel.math.FlxPoint;
 
+import util.*;
+
 class Reg
 {
     public static var tileSize:Int = 16;
 
     public static var delay:Int = 50;
+    
+    public static var mapOffset:Point = {x:0, y:30};
+
 
     //TODOS make operator a base class
 } 

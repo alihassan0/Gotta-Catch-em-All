@@ -6,13 +6,15 @@ import ai.base.*;
 class Maze extends Problem<MazeState>
 {
     public var mazeGrid:Array<Array<Int>>;
-    public var pokemonsLocations:Array<Int>;
     public var moves:Array<Int>;
     public var widthInTiles:Int;
     public var heightInTiles:Int;
-    public var initialHatchingDistance:Int;
     
+    public var pokemonsLocations:Array<Int>;
+    public var initialHatchingDistance:Int;
     public var agentPos:Int = 0;
+    public var agentDirection:Direction = Direction.South;
+    
     public var exitPos:Int = 0;
 
     public var isGenerating:Bool;
