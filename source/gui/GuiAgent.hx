@@ -88,7 +88,6 @@ class GuiAgent extends FlxSprite
     }
     public function followPath(operators:Array<Operator>)
     {
-        
         if(operators.length> 0)
         {
             var operator = operators.shift();
@@ -99,5 +98,12 @@ class GuiAgent extends FlxSprite
         else
             guiMaze.isFollowingPath = false;
     }
+    public function resetStats()
+    {
+        var pos = guiMaze.maze.toPoint(guiMaze.maze.agentPos);
+        moveTo(pos.x, pos.y);
+        setDirection(guiMaze.maze.agentDirection);
+    }
+
 
 }

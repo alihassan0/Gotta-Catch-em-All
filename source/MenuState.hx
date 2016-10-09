@@ -26,7 +26,14 @@ class MenuState extends FlxState
 		guiMaze = new GuiMaze(maze);
 		MazeGenerator.generateMaze(maze, beginSearching);
 		
-		var guiSearchPanel:GuiSearchPanel = new GuiSearchPanel(FlxG.width - 150, 0, Strategy.DepthFirst, guiMaze);
+		var availableStrategies:Array<Strategy> = [Strategy.BreadthFirst, Strategy.DepthFirst, Strategy.AStar(1)
+													,Strategy.AStar(2), Strategy.AStar(3)];
+		var guiSearchPanel;
+		for (i in 0...availableStrategies.length)
+		{
+			guiSearchPanel = new GuiSearchPanel(FlxG.width - 150, 100*i, availableStrategies[i], guiMaze);
+		}
+		 
 
 		randomizeBtn = new FlxButton(0, 0, "Generate", generateNewMaze);
 		add(randomizeBtn);

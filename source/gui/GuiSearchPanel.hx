@@ -27,13 +27,13 @@ class GuiSearchPanel extends FlxSprite
     public function new (x:Int, y:Int, strategy:Strategy, guiMaze:GuiMaze)
     {
         //TODO : Add DRY functions to change sprites
-        super(x, y);
+        super(x, y+5);
         this.strategy = strategy;
         this.guiMaze = guiMaze;
 
-        makeGraphic(150, 100);
+        makeGraphic(150, 90, 0x00000000);
         var lineStyle:LineStyle = {color : 0xFFFF0000, thickness: 4.0};
-        drawRoundRect(0,0, 150, 100, 10, 10, 0xFF00FF00, lineStyle);
+        drawRoundRect(0,0, 150, 90, 30, 30, 0xFF00FF00, lineStyle);
         
         strategyTxt = new FlxText(x , y + 10, this.width, strategy+"")
                                 .setFormat(Reg.font, 16, 0xFFFF0000, "center");
@@ -41,10 +41,10 @@ class GuiSearchPanel extends FlxSprite
         searchBtn = new FlxButton(x, y+40, "search", search);
         followBtn = new FlxButton(x+75, y+40, "follow", follow);
         
-        drawLine(0, 70, this.width,  70, lineStyle);
-        drawLine(100, 70 , 100,  this.height, lineStyle);
+        drawLine(0, 60, this.width,  60, lineStyle);
+        drawLine(100, 60 , 100,  this.height, lineStyle);
         
-        nodesExploredCountTxt = new FlxText(x , y + 70, 100, "nodes explored")
+        nodesExploredCountTxt = new FlxText(x , y + 65, 100, "nodes explored")
                                 .setFormat(Reg.font, 12, 0xFFFF0000, "center");
         
         depthTxt = new FlxText(x +100 , y + 70, 50, "depth")
@@ -71,9 +71,10 @@ class GuiSearchPanel extends FlxSprite
     }
     function follow()
     {
-        
+
         if(solutionPath != null)
         {
+            guiMaze.resetStats();
             guiMaze.guiAgent.followPath(solutionPath);
         }
         else

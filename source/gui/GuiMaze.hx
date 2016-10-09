@@ -33,7 +33,8 @@ class GuiMaze
 			}
 		}
 
-        mazeStats = new FlxText(FlxG.width - 200, 0, 200, "stats", 16);
+        mazeStats = new FlxText(FlxG.width - 400, 0, 200, "stats")
+                        .setFormat(Reg.font, 16, 0xFFFF0000, "center");
         FlxG.state.add(mazeStats);
 
         guiAgent = new GuiAgent(0,0, this);
@@ -60,9 +61,7 @@ class GuiMaze
 
         var pos = maze.toPoint(maze.exitPos);
         tileGrid[pos.x][pos.y].animation.frameIndex = 57;
-        pos = maze.toPoint(maze.agentPos);
-        guiAgent.moveTo(pos.x, pos.y);
-        guiAgent.setDirection(maze.agentDirection);
+        guiAgent.resetStats();
     }
 
     public function update()
@@ -101,5 +100,15 @@ class GuiMaze
     {
         return !maze.isGenerating && !maze.isSearching && !isFollowingPath;
     }
+    public function resetStats()
+    {
+        guiAgent.resetStats();
+        for (i in 0...maze.pokemonsLocations.length)
+        {
+            var pos = maze.toPoint(maze.pokemonsLocations[i]);
+            tileGrid[pos.x][pos.y].animation.frameIndex = 63 ;
+        }
+    }
+
     
 }
