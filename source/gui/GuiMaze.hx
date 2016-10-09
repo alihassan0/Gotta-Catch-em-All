@@ -9,7 +9,8 @@ import util.*;
 class GuiMaze
 {
     private var tileGrid:Array<Array<GuiTile>>;
-    private var maze:Maze;
+    
+    public var maze:Maze;
 
     public var guiAgent:GuiAgent;
 

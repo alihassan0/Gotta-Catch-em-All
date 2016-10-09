@@ -12,6 +12,8 @@ class Reg
     
     public static var mapOffset:Point = {x:0, y:30};
 
-
+    public static var font:String = "assets/fonts/Fridays.ttf";
+    
+    public static var latestNodesExploredCount:Int;
     //TODOS make operator a base class
 } 

@@ -29,6 +29,7 @@ class MazeSearcher
             {
                 trace("--------------------- [["+strategy+"]] --------------------");
                 trace("Goal Found after "+ nodesExplored+ " nodes Explored ");
+                Reg.latestNodesExploredCount = nodesExplored;
                 var path:Array<Operator> = new Array<Operator>();
                 while(node.getParent() != null)
                 {
@@ -105,28 +106,4 @@ class MazeSearcher
         }
         return true;
     }
-
-    public static function heuristicone (state:MazeState, maze:Maze): Int
-    {
-        var x:Int = state.getPosition().x;
-        var y:Int = state.getPosition().y;
-        var pokemonsLocations:Array<Int> = state.getPokemonsLocations();
-        var pokemon:Point;
-        var index ;
-        var distance:Int = 0;
-
-        while(pokemonsLocations.length > 0){
-              index = pokemonsLocations.pop();
-              pokemon = maze.toPoint(index);
-              distance = Math.floor(distance + Math.abs(x - pokemon.x) + Math.abs(y - pokemon.y));
-        }
-        return distance ;
-    }
-
-    /*public static function heuristictwo (state:MazeState): Int
-    {
-        var x:Int = state.getPosition().x;
-        var y:Int = state.getPosition().y;
-        var direction = state.getDirection();   
-    }*/
 }
