@@ -16,7 +16,10 @@ class GuiSearchPanel extends FlxSprite
     private var strategyTxt:FlxText;
     private var nodesExploredCountTxt:FlxText;
     private var depthTxt:FlxText;
+
     private var searchBtn:FlxButton;
+    private var followBtn:FlxButton;
+    
     private var strategy:Strategy;
     private var guiMaze:GuiMaze;
     private var solutionPath:Array<Operator>;
@@ -35,7 +38,8 @@ class GuiSearchPanel extends FlxSprite
         strategyTxt = new FlxText(x , y + 10, this.width, strategy+"")
                                 .setFormat(Reg.font, 16, 0xFFFF0000, "center");
 
-        searchBtn = new FlxButton(x+35, y+40, "search", search);
+        searchBtn = new FlxButton(x, y+40, "search", search);
+        followBtn = new FlxButton(x+75, y+40, "follow", follow);
         
         drawLine(0, 70, this.width,  70, lineStyle);
         drawLine(100, 70 , 100,  this.height, lineStyle);
@@ -51,15 +55,31 @@ class GuiSearchPanel extends FlxSprite
         FlxG.state.add(strategyTxt);
         FlxG.state.add(nodesExploredCountTxt);
         FlxG.state.add(depthTxt);
+
         FlxG.state.add(searchBtn);
+        FlxG.state.add(followBtn);
     }
     function search()
     {
+
+        guiMaze.maze.isSearching = true;
         solutionPath = MazeSearcher.search(guiMaze.maze, strategy ,  false);
-        guiMaze.guiAgent.followPath(solutionPath);
+        guiMaze.maze.isSearching = false;
         nodesExploredCountTxt.text = Reg.latestNodesExploredCount+ "";
         depthTxt.text = solutionPath.length +"";
 
+    }
+    function follow()
+    {
+        
+        if(solutionPath != null)
+        {
+            guiMaze.guiAgent.followPath(solutionPath);
+        }
+        else
+            trace("there is no solution yet. you need to search first");
+
+        
     }
 
 }

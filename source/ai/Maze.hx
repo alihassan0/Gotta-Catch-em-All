@@ -18,6 +18,7 @@ class Maze extends Problem<MazeState>
     public var exitPos:Int = 0;
 
     public var isGenerating:Bool;
+    public var isSearching:Bool;
 
     public function new (widthInTiles:Int, heightInTiles:Int)
     {

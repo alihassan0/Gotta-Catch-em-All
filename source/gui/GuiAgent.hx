@@ -88,12 +88,16 @@ class GuiAgent extends FlxSprite
     }
     public function followPath(operators:Array<Operator>)
     {
+        
         if(operators.length> 0)
         {
             var operator = operators.shift();
             apply(operator);
             haxe.Timer.delay(followPath.bind(operators), 200); 
+            guiMaze.isFollowingPath = true;
         }
+        else
+            guiMaze.isFollowingPath = false;
     }
 
 }

@@ -15,6 +15,8 @@ class GuiMaze
     public var guiAgent:GuiAgent;
 
     private var mazeStats:FlxText;
+
+    public var isFollowingPath:Bool = false;
     
     public function new(maze:Maze)
     {
@@ -94,6 +96,10 @@ class GuiMaze
             var pos = maze.toPoint(maze.pokemonsLocations[index]);
             tileGrid[pos.x][pos.y].animation.frameIndex = 52 ;
         }
+    }
+    public function isReady()
+    {
+        return !maze.isGenerating && !maze.isSearching && !isFollowingPath;
     }
     
 }

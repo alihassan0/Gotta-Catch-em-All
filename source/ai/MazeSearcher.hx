@@ -17,7 +17,6 @@ class MazeSearcher
         //trace( "initialState => ", problem.initialState );
         //push root Node with no parent
         queue.enqueue(makeNode(problem.initialState));
-
         while(true)
         {
             if(queue.isEmpty())
