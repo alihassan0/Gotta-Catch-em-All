@@ -14,7 +14,6 @@ class Maze extends Problem<MazeState>
     public var initialHatchingDistance:Int;
     public var agentPos:Int = 0;
     public var agentDirection:Direction = Direction.South;
-    
     public var exitPos:Int = 0;
 
     public var isGenerating:Bool;
@@ -49,14 +48,17 @@ class Maze extends Problem<MazeState>
 
         var sumheuristics = 0;
 
+        if(state.getPokemonsLocations().length < 1) //not all pokemons are acquired
+            return state.getDistanceFrom(toPoint(exitPos));
+
          //clone pokemonLocations array 
         var pokemonLocations:Array<Int> = [for (i in 0...state.getPokemonsLocations().length) state.getPokemonsLocations()[i]];    
-        var lastNode = state.getPosition(); 
+        var lastPos = state.getPosition(); 
 
-        while(!(pokemonLocations.length<1))
+        while(pokemonLocations.length>0)
         {
-            var minIndex = indexOfClosestPokemon(pokemonsLocations, lastNode);
-            sumheuristics += getDistanceFrom(lastNode,toPoint(minIndex));
+            var minIndex = indexOfClosestPokemon(pokemonsLocations, lastPos);
+            sumheuristics += getDistanceFrom(lastPos,toPoint(pokemonLocations[minIndex]));
             pokemonLocations.splice(minIndex,1);
         }
         return sumheuristics;

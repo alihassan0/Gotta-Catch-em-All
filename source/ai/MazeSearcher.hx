@@ -6,9 +6,27 @@ import ai.base.*;
 
 class MazeSearcher
 {
-    
+ 	    
     @:generic
  	public static function search<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool):Array<Operator>
+    {
+        if(strategy == Strategy.IterativeDeapening)
+        {
+            var depth:Int = 0;
+            while(true)
+            {
+                var result = hsearch(problem, strategy, visualize, depth);
+                if ( result != null)
+                    return result;
+                
+                depth ++;
+            }
+        }
+        else
+            return hsearch(problem, strategy, visualize);
+    }
+    @:generic
+ 	public static function hsearch<T:State>(problem:Problem<T>, strategy:Strategy, visualize:Bool, ?depth:Int= 0):Array<Operator>
 	{
         //create Priority queue with nodes of type state
         var queue:PriorityQueue<Node<T>> = new PriorityQueue<Node<T>>(null, true);
@@ -42,7 +60,9 @@ class MazeSearcher
                 trace("-----------------------------------------------------------\n");
                 return path;    
             }   
-            
+            if(strategy == Strategy.IterativeDeapening && node.getDepth() > depth)
+                return  null;
+                
             //TODO : Add queueing function here
             var newNodes = expand(problem, node, problem.operators, strategy);
             for (i in 0...newNodes.length)

@@ -69,6 +69,13 @@ class GuiSearchPanel extends FlxSprite
         depthTxt.text = solutionPath.length +"";
 
     }
+    public function resetSearchResults()
+    {
+        nodesExploredCountTxt.text = "nodes explored";
+        depthTxt.text = "depth";
+        solutionPath = null;
+
+    }
     function follow()
     {
 

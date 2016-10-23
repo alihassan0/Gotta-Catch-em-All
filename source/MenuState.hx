@@ -15,6 +15,7 @@ class MenuState extends FlxState
 {
 	var maze:Maze;
 	var guiMaze:GuiMaze;
+	var guiSearchPanels:Array<GuiSearchPanel>;
 
 	//gui
 	var randomizeBtn:FlxButton;
@@ -26,12 +27,15 @@ class MenuState extends FlxState
 		guiMaze = new GuiMaze(maze);
 		MazeGenerator.generateMaze(maze, beginSearching);
 		
-		var availableStrategies:Array<Strategy> = [Strategy.BreadthFirst, Strategy.DepthFirst, Strategy.AStar(1)
-													,Strategy.AStar(2), Strategy.AStar(3)];
-		var guiSearchPanel;
+		var availableStrategies:Array<Strategy> = [Strategy.BreadthFirst, Strategy.DepthFirst,
+			Strategy.UniformCost, Strategy.IterativeDeapening, 
+		 	Strategy.Gready(1), Strategy.Gready(2), Strategy.Gready(3),
+		 	Strategy.AStar(1), Strategy.AStar(2), Strategy.AStar(3)];
+		
+		guiSearchPanels = new Array<GuiSearchPanel>();
 		for (i in 0...availableStrategies.length)
 		{
-			guiSearchPanel = new GuiSearchPanel(FlxG.width - 150, 100*i, availableStrategies[i], guiMaze);
+			guiSearchPanels[i] = new GuiSearchPanel(FlxG.width - 320 + Math.floor(i/5)*160,40 + 100*(i%5), availableStrategies[i], guiMaze);
 		}
 		 
 
@@ -44,13 +48,6 @@ class MenuState extends FlxState
 	{
 		guiMaze.updateProblemStats();
 		trace("#############################################");
-
-
-		
-
-		
-
-
 		// //too time consuming
 		// MazeSearcher.search(maze, Strategy.DepthFirst ,  false);
 
@@ -77,6 +74,10 @@ class MenuState extends FlxState
 		{
 			maze.reset();
 			MazeGenerator.generateMaze(maze, beginSearching);
+			for (i in 0...guiSearchPanels.length)
+			{
+				guiSearchPanels[i].resetSearchResults();
+			}
 		}
 	}
 	

@@ -93,6 +93,8 @@ class MazeGenerator
 			}
 			Random.shuffle(availableTiles);
 			maze.agentPos = availableTiles.shift();	
+			//maze.agentDirection = Random.enumConstructor( Direction );
+
 			Random.shuffle(availableTiles);
 			maze.exitPos = availableTiles.shift();
 			maze.initialHatchingDistance = Random.int(4,20);

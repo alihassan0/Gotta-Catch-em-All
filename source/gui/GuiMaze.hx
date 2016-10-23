@@ -33,8 +33,8 @@ class GuiMaze
 			}
 		}
 
-        mazeStats = new FlxText(FlxG.width - 400, 0, 200, "stats")
-                        .setFormat(Reg.font, 16, 0xFFFF0000, "center");
+        mazeStats = new FlxText(0, 280, 240, "stats")
+                        .setFormat(Reg.font, 24, 0xFFFF0000, "center");
         FlxG.state.add(mazeStats);
 
         guiAgent = new GuiAgent(0,0, this);

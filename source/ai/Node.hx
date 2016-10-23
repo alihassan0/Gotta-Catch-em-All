@@ -26,7 +26,6 @@ class Node<T:State> implements de.polygonal.ds.Prioritizable
 		this.pathCost = pathCost;
 		this.operator = operator;
 		this.depth = depth;
-
 	}
 
 	public function getState(): T

@@ -17,7 +17,7 @@ class GuiAgent extends FlxSprite
         super(x, y);
         this.guiMaze = guiMaze;
 
-        loadGraphic("assets/images/sprites.png", true, 16, 16, true);
+        loadGraphic("assets/images/spritesx2.png", true, Reg.tileSize, Reg.tileSize, true);
         FlxG.state.add(this);
         position = {x:0, y:0};
     }
@@ -26,8 +26,8 @@ class GuiAgent extends FlxSprite
     {
         position.x = x;
         position.y = y;
-        trace(x,y, Reg.mapOffset.x + y*16, Reg.mapOffset.y + x*16);
-        reset(Reg.mapOffset.x + y*16, Reg.mapOffset.y + x*16);
+        trace(x,y, Reg.mapOffset.x + y*Reg.tileSize, Reg.mapOffset.y + x*Reg.tileSize);
+        reset(Reg.mapOffset.x + y*Reg.tileSize, Reg.mapOffset.y + x*Reg.tileSize);
     }
     public function setDirection(direction:Direction)
     {
